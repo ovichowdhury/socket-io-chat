@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Chatter</title>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.1.1/socket.io.js"></script>
+    <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
+
+
+
+</head>
+<body>
+    <ul id="messages"></ul>
+    <div>
+        <input id="m" autocomplete="off" /> <button id="submit">Send</button>
+    </div>
+
+    <script>
+        $(
+            function(){
+                var name = prompt("Please enter your name");
+                var socket = io();
+                $("#submit").click(function(){
+                    //alert("Sure");
+                    let msg = name.toString() + " : " + $("#m").val().toString();
+                    socket.emit("message", msg);
+                    $('#m').val('');
+                })
+
+                socket.on("newMessage", function(msg){
+                    $('#messages').append($('<li>').text(msg));
+                });
+            }
+        );
+    </script>
+</body>
+</html>
